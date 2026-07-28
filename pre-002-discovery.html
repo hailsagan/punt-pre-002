@@ -44,13 +44,11 @@ a._action_lmoli_79{text-decoration:none}
 ._flagsWrap_lmoli_106{margin-left:0}
 
 /* onboarding lives inside the device frame, not the browser chrome — so in the
-   Mobile simulation it's scoped to the phone mockup instead of the whole page. */
+   Mobile simulation it's scoped to the phone mockup instead of the whole page.
+   Presentation stays the same centered floating card as desktop (no drawer,
+   no distinct load-in animation — it just appears, same as desktop). */
 ._frame_lazny_32[data-device="mobile"]{contain:layout}
-._frame_lazny_32[data-device="mobile"] .pre-onboard-backdrop{padding:0;align-items:flex-end;border-radius:var(--frame-screen-radius);overflow:hidden}
 .pre-onboard-grip{display:none}
-._frame_lazny_32[data-device="mobile"] .pre-onboard-grip{display:block;width:36px;height:4px;border-radius:3px;background:currentColor;opacity:.25;margin:0 auto 14px}
-._frame_lazny_32[data-device="mobile"] .pre-onboard{width:100%;max-width:none;max-height:82%;border-radius:20px 20px 0 0;animation:pre-drawer-up .28s cubic-bezier(.2,.7,.2,1)}
-@keyframes pre-drawer-up{from{transform:translateY(100%)}to{transform:translateY(0)}}
 
 /* the real page's narrow-container carousel (generic "OpenAI" market) is a
    separate sibling of our hero slot that only shows up under 34rem — keep it
