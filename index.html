@@ -12,12 +12,11 @@
 .pre-whychips{display:flex;flex-wrap:wrap;gap:8px;margin:2px 0}
 .pre-chip{display:inline-flex;align-items:center;gap:6px;font-family:var(--punt-type-caption-font);font-size:var(--punt-type-caption-size);color:#fff;background:#ffffff1f;border:1px solid #ffffff3d;border-radius:var(--punt-radius-full);padding:5px 10px 5px 9px;white-space:nowrap}
 .pre-heroctas{display:flex;gap:10px;margin-top:4px;flex-wrap:wrap}
-.pre-ranknav{display:flex;align-items:center;justify-content:center;gap:14px;margin:4px 0 2px}
+.pre-ranknav{display:flex;align-items:center;gap:10px;flex:0 0 auto}
 .pre-arrow{width:32px;height:32px;padding:0;border-radius:50%;justify-content:center;flex:0 0 auto}
 .pre-rankdots{display:flex;gap:6px;align-items:center}
 .pre-rankdots i{width:7px;height:7px;border-radius:50%;background:#ffffff59;transition:opacity .2s,transform .2s;display:block}
 .pre-rankdots i.on{background:#fff;transform:scale(1.2)}
-.pre-prompt{font-family:var(--punt-type-caption-font);font-size:var(--punt-type-caption-size);color:#ffffffb0;margin:0}
 .pre-toast{position:fixed;left:50%;top:18px;transform:translateX(-50%) translateY(-10px);background:#16171a;color:#fff;font-size:12.5px;font-weight:500;padding:10px 16px;border-radius:999px;box-shadow:0 10px 30px rgba(0,0,0,.4);opacity:0;pointer-events:none;transition:.25s;z-index:1200;white-space:nowrap}
 .pre-toast.show{opacity:1;transform:translateX(-50%)}
 </style>
@@ -34,9 +33,12 @@ const MATCH={id:"lbj", cat:"NBA", title:"LeBron James 25+ points",
   why:["You follow the Lakers","Watched their last 3 games","Checked LeBron props twice"]};
 
 const V2_ORDER=[
-  {id:"lbj", cat:"NBA", title:"LeBron James 25+ points", sub:"Lakers vs. Nuggets · Tonight 10:30 PM ET", odds:"−115", reason:"You follow the Lakers", topic:"LeBron James"},
-  {id:"lal_ml", cat:"NBA", title:"Lakers to beat the Nuggets", sub:"Tonight 10:30 PM ET", odds:"+120", reason:"You watch the NBA", topic:"Lakers"},
-  {id:"tot", cat:"NBA", title:"Lakers–Nuggets over 228.5", sub:"Tonight 10:30 PM ET", odds:"−110", reason:"You check NBA props", topic:"NBA"}
+  {id:"lbj", cat:"NBA", title:"LeBron James 25+ points", sub:"Lakers vs. Nuggets · Tonight 10:30 PM ET", odds:"−115",
+    why:["You follow the Lakers","Watched their last 3 games","Checked LeBron props twice"], topic:"LeBron James"},
+  {id:"lal_ml", cat:"NBA", title:"Lakers to beat the Nuggets", sub:"Tonight 10:30 PM ET", odds:"+120",
+    why:["You follow the Lakers","Watched their last 3 games"], topic:"Lakers"},
+  {id:"tot", cat:"NBA", title:"Lakers–Nuggets over 228.5", sub:"Tonight 10:30 PM ET", odds:"−110",
+    why:["You follow the Lakers","You watch the NBA"], topic:"NBA"}
 ];
 
 /* ---------- state ---------- */
@@ -55,7 +57,7 @@ function heroCard(inner){
 }
 function ctaRow(m,topic){
   return `<div class="pre-heroctas">
-    <button type="button" class="_button_1fbs5_1 _primary_1fbs5_49 _md_1fbs5_35" data-a="place" data-id="${m.id}">Place Bet · ${m.odds}</button>
+    <button type="button" class="_button_1fbs5_1 _primary_1fbs5_49 _md_1fbs5_35" data-a="place" data-id="${m.id}">Place Bet</button>
     <button type="button" class="_button_1fbs5_1 _secondary_1fbs5_57 _sm_1fbs5_31 _tradeOnImage_2lkff_214" data-a="explore" data-topic="${topic}">Explore More on ${topic}</button>
   </div>`;
 }
@@ -73,17 +75,17 @@ function renderV1(){
 function renderV2(){
   const i=S.v2i, total=V2_ORDER.length, m=V2_ORDER[i];
   const dots=V2_ORDER.map((_,k)=>`<i class="${k===i?'on':''}"></i>`).join("");
+  const ranknav=`<div class="pre-ranknav">
+    <button type="button" class="_button_1fbs5_1 _secondary_1fbs5_57 _tradeOnImage_2lkff_214 pre-arrow" data-a="prev" aria-label="Previous pick" ${i===0?"disabled":""}>‹</button>
+    <div class="pre-rankdots" aria-hidden="true">${dots}</div>
+    <button type="button" class="_button_1fbs5_1 _secondary_1fbs5_57 _tradeOnImage_2lkff_214 pre-arrow" data-a="next" aria-label="Next pick" ${i===total-1?"disabled":""}>›</button>
+  </div>`;
   return heroCard(`
-    <div class="_top_s34ji_123">${heroTag(m.cat+" · Pick "+(i+1)+" of "+total)}</div>
+    <div class="_top_s34ji_123">${heroTag(m.cat+" · Pick "+(i+1)+" of "+total)}${ranknav}</div>
     <div class="_bottom_s34ji_209">
+      <div class="pre-whychips">${m.why.map(w=>`<span class="pre-chip">✦ ${w}</span>`).join("")}</div>
       <p class="_q_s34ji_131">${m.title}</p>
       <p class="_meta_s34ji_143" data-invert="true"><span>${m.sub}</span></p>
-      <p class="pre-prompt">${m.reason} · Sound like you tonight?</p>
-      <div class="pre-ranknav">
-        <button type="button" class="_button_1fbs5_1 _secondary_1fbs5_57 _tradeOnImage_2lkff_214 pre-arrow" data-a="prev" aria-label="Previous pick" ${i===0?"disabled":""}>‹</button>
-        <div class="pre-rankdots" aria-hidden="true">${dots}</div>
-        <button type="button" class="_button_1fbs5_1 _secondary_1fbs5_57 _tradeOnImage_2lkff_214 pre-arrow" data-a="next" aria-label="Next pick" ${i===total-1?"disabled":""}>›</button>
-      </div>
       ${ctaRow(m,m.topic)}
     </div>`);
 }
