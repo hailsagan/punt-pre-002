@@ -21,17 +21,23 @@
 .pre-toast.show{opacity:1;transform:translateX(-50%)}
 
 /* onboarding modal */
-.pre-onboard-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.62);z-index:2000;display:flex;align-items:center;justify-content:center;padding:20px;opacity:1;transition:opacity .2s ease}
+.pre-onboard-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.62);z-index:2000;display:flex;align-items:center;justify-content:center;padding:20px 20px 76px;opacity:1;transition:opacity .2s ease}
 .pre-onboard-backdrop[hidden]{display:none}
-.pre-onboard{background:#16171a;color:#fff;border-radius:20px;max-width:560px;width:100%;max-height:86vh;overflow-y:auto;padding:28px;box-shadow:0 30px 80px rgba(0,0,0,.55);font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
+._bar_lmoli_6{z-index:2100}
+.pre-onboard{background:#fff;color:#1a1a1a;border-radius:20px;max-width:560px;width:100%;max-height:86vh;overflow-y:auto;padding:28px;box-shadow:0 30px 80px rgba(0,0,0,.35);font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
 .pre-onboard-head{display:flex;align-items:center;gap:10px}
 .pre-onboard-head h2{font-size:20px;font-weight:700;margin:0;letter-spacing:-.01em}
-.pre-onboard-sub{color:#ffffffa8;font-size:13.5px;margin:8px 0 22px}
+.pre-onboard-sub{color:#68686d;font-size:13.5px;margin:8px 0 22px}
 .pre-onboard-tags{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:26px}
-.pre-tag{display:inline-flex;align-items:center;font-family:var(--punt-type-caption-font);font-size:var(--punt-type-caption-size);color:#ffffffb0;background:transparent;border:1px solid #ffffff30;border-radius:var(--punt-radius-full);padding:7px 14px;cursor:pointer;transition:.15s;white-space:nowrap}
-.pre-tag:hover{border-color:#ffffff5c;color:#fff}
-.pre-tag[aria-pressed="true"]{color:#fff;background:#ffffff1f;border-color:#ffffff3d}
+.pre-tag{display:inline-flex;align-items:center;font-family:var(--punt-type-caption-font);font-size:var(--punt-type-caption-size);color:#4d4d52;background:transparent;border:1px solid #00000026;border-radius:var(--punt-radius-full);padding:7px 14px;cursor:pointer;transition:.15s;white-space:nowrap}
+.pre-tag:hover{border-color:#00000047;color:#1a1a1a}
+.pre-tag[aria-pressed="true"]{color:#fff;background:#1a1a1a;border-color:#1a1a1a}
 .pre-onboard button.pre-onboard-cta{width:100%}
+:root[data-punt-theme="hifi"] .pre-onboard{background:#16171a;color:#fff;box-shadow:0 30px 80px rgba(0,0,0,.55)}
+:root[data-punt-theme="hifi"] .pre-onboard-sub{color:#ffffffa8}
+:root[data-punt-theme="hifi"] .pre-tag{color:#ffffffb0;border-color:#ffffff30}
+:root[data-punt-theme="hifi"] .pre-tag:hover{border-color:#ffffff5c;color:#fff}
+:root[data-punt-theme="hifi"] .pre-tag[aria-pressed="true"]{color:#fff;background:#ffffff1f;border-color:#ffffff3d}
 .pre-wordmark{font-family:Inter,-apple-system,system-ui,sans-serif;font-size:22px;font-weight:800;letter-spacing:-.22px;text-transform:uppercase;color:var(--punt-text-primary);line-height:1.45}
 </style>
 </head>
@@ -193,6 +199,12 @@ if(resetBtn){
   resetBtn.addEventListener("click",()=>{
     S.model="v2"; S.v2i=0; S.placed=null;
     paintHero();
+    if(onboardTags){
+      onboardTags.querySelectorAll(".pre-tag").forEach(b=>b.setAttribute("aria-pressed","false"));
+    }
+    if(onboardBackdrop){
+      onboardBackdrop.removeAttribute("hidden");
+    }
     toast("Learning reset");
   });
 }
