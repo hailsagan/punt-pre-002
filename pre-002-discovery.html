@@ -51,6 +51,14 @@ a._action_lmoli_79{text-decoration:none}
 ._frame_lazny_32[data-device="mobile"] .pre-onboard-grip{display:block;width:36px;height:4px;border-radius:3px;background:currentColor;opacity:.25;margin:0 auto 14px}
 ._frame_lazny_32[data-device="mobile"] .pre-onboard{width:100%;max-width:none;max-height:82%;border-radius:20px 20px 0 0;animation:pre-drawer-up .28s cubic-bezier(.2,.7,.2,1)}
 @keyframes pre-drawer-up{from{transform:translateY(100%)}to{transform:translateY(0)}}
+
+/* the real page's narrow-container carousel (generic "OpenAI" market) is a
+   separate sibling of our hero slot that only shows up under 34rem — keep it
+   hidden everywhere so the swapped-in concept hero is the mobile landing too.
+   The same container query also hides our hero slot itself (it expected the
+   carousel to take over on mobile) — force it back on. */
+._carousel_14ss8_4{display:none}
+._trendingHero_19tfx_303{display:grid}
 </style>
 </head>
 <body>
