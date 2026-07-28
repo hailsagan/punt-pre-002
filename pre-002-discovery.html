@@ -59,6 +59,15 @@ a._action_lmoli_79{text-decoration:none}
    carousel to take over on mobile) — force it back on. */
 ._carousel_14ss8_4{display:none}
 ._trendingHero_19tfx_303{display:grid}
+
+/* pick arrows/dots: top row (beside the tag) on wide cards, bottom-centered
+   on narrow ones — same container query breakpoint the real page already
+   uses for its own mobile layout */
+.pre-ranknav-bottom{display:none}
+@container (width<=34rem){
+  .pre-ranknav-top{display:none}
+  .pre-ranknav-bottom{display:flex; justify-content:center; width:100%; margin-top:4px}
+}
 </style>
 </head>
 <body>
@@ -126,18 +135,21 @@ function renderV1(){
 function renderV2(){
   const i=S.v2i, total=V2_ORDER.length, m=V2_ORDER[i];
   const dots=V2_ORDER.map((_,k)=>`<i class="${k===i?'on':''}"></i>`).join("");
-  const ranknav=`<div class="pre-ranknav">
-    <button type="button" class="_button_1fbs5_1 _secondary_1fbs5_57 _tradeOnImage_2lkff_214 pre-arrow" data-a="prev" aria-label="Previous pick" ${i===0?"disabled":""}>‹</button>
-    <div class="pre-rankdots" aria-hidden="true">${dots}</div>
-    <button type="button" class="_button_1fbs5_1 _secondary_1fbs5_57 _tradeOnImage_2lkff_214 pre-arrow" data-a="next" aria-label="Next pick" ${i===total-1?"disabled":""}>›</button>
-  </div>`;
+  function ranknav(variant){
+    return `<div class="pre-ranknav pre-ranknav-${variant}">
+      <button type="button" class="_button_1fbs5_1 _secondary_1fbs5_57 _tradeOnImage_2lkff_214 pre-arrow" data-a="prev" aria-label="Previous pick" ${i===0?"disabled":""}>‹</button>
+      <div class="pre-rankdots" aria-hidden="true">${dots}</div>
+      <button type="button" class="_button_1fbs5_1 _secondary_1fbs5_57 _tradeOnImage_2lkff_214 pre-arrow" data-a="next" aria-label="Next pick" ${i===total-1?"disabled":""}>›</button>
+    </div>`;
+  }
   return heroCard(`
-    <div class="_top_s34ji_123">${heroTag(m.cat+" · Recommended for you")}${ranknav}</div>
+    <div class="_top_s34ji_123">${heroTag(m.cat+" · Recommended for you")}${ranknav("top")}</div>
     <div class="_bottom_s34ji_209">
       <div class="pre-whychips">${m.why.map(w=>`<span class="pre-chip">✦ ${w}</span>`).join("")}</div>
       <p class="_q_s34ji_131">${m.title}</p>
       <p class="_meta_s34ji_143" data-invert="true"><span>${m.sub}</span></p>
       ${ctaRow(m,m.topic)}
+      ${ranknav("bottom")}
     </div>`);
 }
 function paintHero(){
